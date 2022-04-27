@@ -1,6 +1,6 @@
 # Kyle
 
-A simple C-Style macro-based Programming language written in D.
+A simple C-Style macro-based Programming language written in D. (Excla 2022)
 
 A sample File would be:
 
@@ -42,6 +42,15 @@ void main(string[] args) {
  writeln("The module name: " ~ module_name);
 }
 ```
+
+## Speed
+
+The speed of Kyle is very fast.
+
+Upon multiple tests on the unit, it took around `18` miliseconds to execute. To put that in perspective,
+the original Exclamation language took around `34` miliseconds, with the D version taking `26`.
+
+Which means, out of all of the other implementations, Kyle is the **fastest**, and most **reliable** implementation of Excla/Kyle.
 
 ## Basics
 
