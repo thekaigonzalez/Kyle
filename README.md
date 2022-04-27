@@ -43,3 +43,26 @@ void main(string[] args) {
  writeln("The module name: " ~ module_name);
 }
 ```
+
+## Basics
+
+### The IF Statement
+
+The if statement works in a very usual way, it checks if the given statement is true, using it's syntax `@ <expr> { <code> }`, then it will
+run \<code> if \<expr> is true.
+
+Future versions will allow \<expr> to be boolean values (convertable)
+
+The implementation works like this:
+
+```d
+auto if_block = kyle_new();
+
+kyle_transfer_delegates(s, if_block);
+
+kyle_set_code(if_block, strip(blc));
+
+kyle_execute(if_block); // execute the if block
+```
+
+It will transfer it's functions, but not the variables. So be careful!
