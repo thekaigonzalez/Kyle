@@ -15,7 +15,7 @@ import std.algorithm;
 Tuple!(string[], kyle_expr_type) kyle_each_side(string Full)
 {
     state C = state.idle;
-    kyle_expr_type t;
+    kyle_expr_type t = kyle_expr_type.review;
     string b;
     string s1;
     string[] g;
