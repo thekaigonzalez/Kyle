@@ -52,7 +52,6 @@ Tuple!(string[], kyle_expr_type) kyle_each_side(string Full)
 
     if (g.length == 1) /*suspicious*/
     t = kyle_expr_type.review;
-    writeln(t);
 
     if (C == state.collecting)
     {
