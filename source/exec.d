@@ -39,6 +39,8 @@ void kyle_execute(kyle_state s)
                 blc = "";
             }
         }
+        else if (l == '"' && state == 2) { state = -1; }
+        else if (l == '"' && state == -1) { state = 2; }
         else if (l == s.line_ending && state == 2)
         {
             if (blc.length > 0)
