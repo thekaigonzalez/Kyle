@@ -85,6 +85,10 @@ void kyle_execute(kyle_state s)
             kyle_set_code(if_block, strip(blc));
 
             kyle_execute(if_block); // execute the if block
+
+            st = state.idle;
+            blc = "";
+            ctx = kyle_context.none;
         }
         else if (l == ' ' && st == state.collecting)
         {
