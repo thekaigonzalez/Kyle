@@ -1,18 +1,30 @@
 module exec;
 
 import std.stdio;
+import std.string;
+import std.algorithm;
 
 // contains the stuff for like the language..
 
 import kobj;
 import cv;
-import std.string;
-import std.algorithm;
+import xp;
+import st;
+import kt;
+import kc;
+import so;
+import cp;
+import ku;
+import vl;
+import ct;
+import xps;
 import va;
 
 void kyle_execute(kyle_state s)
 {
-    int state = 0;
+    state st = state.idle;
+    kyle_context ctx = kyle_context.none;
+
     string blc;
     string fname;
     kyle_arguments arg = new kyle_arguments();
@@ -20,18 +32,68 @@ void kyle_execute(kyle_state s)
     {
         if (s.err)
             break;
-        if (l == '#' && state == 0)
+        if (l == '#' && st == state.idle)
         {
-            state = 1;
+            st = state.collecting;
             blc = "";
         }
-        else if (l == ' ' && state == 1)
+        else if (l == '@' && st == state.idle)
         {
-            state = 2;
+            st = state.collectetc;
+            ctx = kyle_context.ifstatement;
+
+            blc = "";
+        }
+        else if (l == '{' && ctx == kyle_context.ifstatement)
+        {
+            kyle_expr_type t = kyle_each_side(blc)[1];
+
+            string[] sides = kyle_each_side(blc)[0];
+
+            string side1 = "";
+            string side2 = "";
+
+            if (t == kyle_expr_type.compareTo) {
+                side1 = sides[0];
+                if (kyle_has_value(s, sides[0])) {
+                    side1 = kyle_getvalue(s, sides[0]);
+                }
+
+                side2 = sides[1];
+                if (kyle_has_value(s, sides[1])) {
+                    side2 = kyle_getvalue(s, sides[1]);
+                }
+            }
+
+            if (side1 == side2) {
+                ctx = kyle_context.gathering;
+            } else {
+                ctx = kyle_context.none;
+            }
+
+            st = state.rely;
+
+            blc = "";
+        }
+        else if (l == '}' && ctx == kyle_context.gathering) {
+            // COPY ALL DELEGATES OVER TO SCOPE 2
+
+            auto if_block = kyle_new();
+
+            kyle_transfer_delegates(s, if_block);
+
+            kyle_set_code(if_block, strip(blc));
+
+            kyle_execute(if_block); // execute the if block
+        }
+        else if (l == ' ' && st == state.collecting)
+        {
+            st = state.blocking;
+            ctx = kyle_context.running;
             fname = strip(blc);
             blc = "";
         }
-        else if (l == ' ' && state == 2)
+        else if (l == ' ' && st == state.blocking && ctx == kyle_context.running)
         {
             if (blc.length > 0)
             {
@@ -39,14 +101,23 @@ void kyle_execute(kyle_state s)
                 blc = "";
             }
         }
-        else if (l == '"' && state == 2) { state = -1; }
-        else if (l == '"' && state == -1) { state = 2; }
-        else if (l == s.line_ending && state == 2)
+
+        else if (l == '"' && st == state.blocking)
+        {
+            st = state.stoned;
+        }
+        else if (l == '"' && st == state.stoned)
+        {
+            st = state.blocking;
+        }
+
+        else if (l == s.line_ending && st == state.blocking)
         {
             if (blc.length > 0)
                 arg.outType = arg.outType ~ blc;
 
-            state = 0;
+            st = state.idle;
+            ctx = kyle_context.none;
             if (fname == "mod")
             {
                 if (s.use_mod)
@@ -60,23 +131,23 @@ void kyle_execute(kyle_state s)
             blc = "";
             arg = new kyle_arguments();
         }
-        else if (l == s.comment_op && state >= 0)
+        else if (l == s.comment_op && st != state.blocking)
         {
-            state = 6;
+            st = state.ignorant;
         }
-        else if (l == s.comment_break && state == 6)
+        else if (l == s.comment_break && st == state.ignorant)
         {
             blc = "";
-            state = 0;
+            st = state.idle;
             continue;
         }
-        else if (l == '\n' && state == 0)
+        else if (l == '\n' && st == state.idle)
             continue;
 
-        else if (l == s.line_ending && state == 1)
+        else if (l == s.line_ending && st == state.blocking)
         {
             s.err = true;
-            s.errmsg = ("unexpected token '#', maybe `;' was needed?");
+            s.errmsg = ("unexpected token '#' where `blocking' was expected, maybe `;' was needed?");
         }
         else
         {

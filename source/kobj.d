@@ -13,6 +13,7 @@ class kyle_state
     char comment_break = '\n'; /* the comment break - applies to one line comments. */
     char comment_op = '?'; /* the comment operator. */
     string supplied_code = "";
+    string[string] storage; /* store string values k=v */
     int err = 0;
     string errmsg;
 }
