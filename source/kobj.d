@@ -2,6 +2,8 @@ module kobj;
 
 import std.stdio;
 import va;
+import ke;
+import ky;
 
 class kyle_state
 {
@@ -14,6 +16,7 @@ class kyle_state
     char comment_op = '?'; /* the comment operator. */
     string supplied_code = "";
     string[string] storage; /* store string values k=v */
+    kyle_object[string] storageO;
     int err = 0;
     string errmsg;
 }

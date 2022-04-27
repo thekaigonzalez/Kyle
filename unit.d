@@ -49,4 +49,20 @@ void main() {
 
     kyle_execute(env1);
 
+    writeln("testing objects");
+
+    auto env2 = kyle_new();
+
+    kyle_object myObj = new kyle_object();
+
+    kyle_setk(myObj, "1");
+
+    kyle_set(env2, myObj, "obj");
+
+    if (kyle_objects_has("obj", env2)) {
+        int one = kyle_convert!(int).object_to(kyle_get(env2, "obj"));
+
+        writeln(one + 1);
+    }
+
 }
