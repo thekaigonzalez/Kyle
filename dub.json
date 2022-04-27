@@ -3,8 +3,8 @@
 		"seymo"
 	],
 	"copyright": "Copyright © 2022, seymo",
-	"description": "A minimal D application.",
-	"license": "proprietary",
+	"description": "Kyle is a fast, embeddable programming language.",
+	"license": "MIT",
 	"name": "kyle",
 	"targetType": "library"
 }
