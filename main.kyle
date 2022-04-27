@@ -2,6 +2,7 @@
 
 @ true {
     #print "hola!";
+    #print "this is true!";
 }
 
 #print Stats "work outside!";
