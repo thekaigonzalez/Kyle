@@ -32,7 +32,7 @@ void main(string[] args) {
   &test_function,
   "test_function");
  
- kyle_set_code("#print \"hello!\";");
+ kyle_set_code(s, "#print \"hello!\";");
 
  kyle_execute(s); // Execute.
 
