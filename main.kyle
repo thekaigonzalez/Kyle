@@ -1,6 +1,6 @@
 
 
-@ one == one {
+@ true {
     #print "hola!";
 }
 

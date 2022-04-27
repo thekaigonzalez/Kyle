@@ -15,11 +15,9 @@ import std.algorithm;
 Tuple!(string[], kyle_expr_type) kyle_each_side(string Full)
 {
     state C = state.idle;
-    kyle_expr_type t = kyle_expr_type.review;
+    kyle_expr_type t;
     string b;
-    string s1;
     string[] g;
-    string s2;
 
     foreach (char s; Full)
     {
@@ -38,7 +36,6 @@ Tuple!(string[], kyle_expr_type) kyle_each_side(string Full)
             {
 
                 t = kyle_expr_type.compareTo;
-                g = g ~ strip(b);
                 b = "";
             }
             C = state.idle;
@@ -48,8 +45,14 @@ Tuple!(string[], kyle_expr_type) kyle_each_side(string Full)
             b = b ~ s;
         }
     }
+
+
     if (b.length > 0 && t == kyle_expr_type.compareTo)
         g = g ~ strip(b);
+
+    if (g.length == 1) /*suspicious*/
+    t = kyle_expr_type.review;
+    writeln(t);
 
     if (C == state.collecting)
     {

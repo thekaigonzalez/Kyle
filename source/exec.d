@@ -1,6 +1,7 @@
 module exec;
 
 import std.stdio;
+import std.conv;
 import std.string;
 import std.algorithm;
 
@@ -15,6 +16,7 @@ import kc;
 import so;
 import cp;
 import ku;
+import ps;
 import vl;
 import ct;
 import xps;
@@ -53,29 +55,45 @@ void kyle_execute(kyle_state s)
             string side1 = "";
             string side2 = "";
 
-            if (t == kyle_expr_type.compareTo) {
+            if (t == kyle_expr_type.compareTo)
+            {
                 side1 = sides[0];
-                if (kyle_has_value(s, sides[0])) {
+                if (kyle_has_value(s, sides[0]))
+                {
                     side1 = kyle_getvalue(s, sides[0]);
                 }
 
                 side2 = sides[1];
-                if (kyle_has_value(s, sides[1])) {
+                if (kyle_has_value(s, sides[1]))
+                {
                     side2 = kyle_getvalue(s, sides[1]);
                 }
+                if (side1 == side2)
+                {
+                    ctx = kyle_context.gathering;
+                }
             }
+            else if (t == kyle_expr_type.review)
+            {
+                if (kyle_has_value(s, sides[0]))
+                {
+                    string val = kyle_getvalue(s, sides[0]);
 
-            if (side1 == side2) {
-                ctx = kyle_context.gathering;
-            } else {
-                ctx = kyle_context.none;
+                    if (to!bool(val))
+                    {
+                        ctx = kyle_context.gathering;
+                    }
+                } else {
+                    if (kyle_parsebool(sides[0])) ctx = kyle_context.gathering;
+                }
             }
 
             st = state.rely;
 
             blc = "";
         }
-        else if (l == '}' && ctx == kyle_context.gathering) {
+        else if (l == '}' && ctx == kyle_context.gathering)
+        {
             // COPY ALL DELEGATES OVER TO SCOPE 2
 
             auto if_block = kyle_new();
