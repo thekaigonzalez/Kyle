@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/kyle
+kyle.so
+kyle.dylib
+kyle.dll
+kyle.a
+kyle.lib
+kyle-test-*
+*.exe
+*.o
+*.obj
+*.lst

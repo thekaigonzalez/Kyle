@@ -1,0 +1,10 @@
+{
+	"authors": [
+		"seymo"
+	],
+	"copyright": "Copyright © 2022, seymo",
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "kyle",
+	"targetType": "library"
+}
