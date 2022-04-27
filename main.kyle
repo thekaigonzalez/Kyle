@@ -3,3 +3,5 @@
 @ one == one {
     #print "hola!";
 }
+
+#print Stats "work outside!";
