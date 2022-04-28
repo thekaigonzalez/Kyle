@@ -13,3 +13,5 @@ kyle-test-*
 *.o
 *.obj
 *.lst
+unit
+*.a
